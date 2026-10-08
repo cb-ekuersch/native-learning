@@ -1,0 +1,5 @@
+PLATFORM=ios
+APP=L01FirstScreen
+BUNDLE=com.example.lessons.l01firstscreen
+NUM=01
+TITLE=Views\,\ stacks\ and\ modifiers
