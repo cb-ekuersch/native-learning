@@ -25,5 +25,5 @@ else:
 PY
 printf '%s\n' \
   'Next: see README.md for platform prerequisites, then run scripts/doctor.sh.' \
-  'Ask your coding agent to start your first native lesson, or use scripts/log-lesson.sh start <lesson-dir>.' \
-  'LESSONS.md is Git-ignored; back it up privately. Shared lesson files do not imply completion.'
+  'Ask your coding agent to start your first native lesson; it will generate local lesson content.' \
+  'LESSONS.md and lessons/ are Git-ignored; back them up privately.'

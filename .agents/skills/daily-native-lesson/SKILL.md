@@ -11,7 +11,7 @@ Project root = the folder containing this `.agents/` directory. All paths below 
 - **Memory:** `LESSONS.md` is the ONLY source of truth for what the learner knows. Never infer knowledge from anything else
   (other repos, `~/workspace/*`, Android Studio projects, git history, past agent sessions, shell history).
   Only status `completed` counts as known. Baseline = React Native + TypeScript.
-- **Private state:** `LESSONS.md` is Git-ignored. Never force-add it or copy personal progress/preferences into shared docs. Curriculum lesson numbers link to shared material, not learner completion.
+- **Private state and content:** `LESSONS.md` and all of `lessons/` are Git-ignored. Never force-add them or copy personal progress/preferences into shared docs. Only the toolkit, curriculum, and templates are shared.
 - **Concept-first, design-system-neutral.** Plain, generic examples. Do not frame lessons around CDS or any design system.
   React Native comparisons are encouraged.
 - **One focused goal per lesson**, 30–60 min. Don't reteach completed concepts as the main goal; reuse them in examples and exercises.
@@ -42,20 +42,20 @@ The learner has limited study time. Teach the concepts inside the lesson's `READ
 1. Run `scripts/init.sh`. It creates `LESSONS.md` from `templates/LESSONS.template.md` only if absent; never reset an existing log.
 2. Read `README.md` for platform prerequisites. Ask which platform to start with if unspecified; SwiftUI is the default when both are wanted.
 3. Run `scripts/doctor.sh ios` or `scripts/doctor.sh android` for the chosen track. Explain missing tools; do not install software without permission.
-4. Read the private log. A fresh clone starts with no completed lessons, even though shared lesson folders exist. Honor personal topic requests only from this log or the current user.
+4. Read the private log. A fresh clone starts with no completed lessons and no generated lesson folders. Honor personal topic requests only from this log or the current user.
 5. Continue with the lesson workflow below. Initialization alone must not assign or complete any lesson.
 
 ## Workflow: start today's lesson
 1. Run `scripts/init.sh`, then read `LESSONS.md` and `CURRICULUM.md`.
 2. If the latest lesson is `assigned`/`in-progress`, ask whether it's finished (offer: mark completed via
-   `scripts/log-lesson.sh status NN completed "note"`, continue it, or redo). In an unattended run, prepare the new lesson
-   anyway and flag the open one at the top of the reply.
+   `scripts/log-lesson.sh status NN completed "note"`, continue it, or redo). In an unattended run, present the open
+   lesson and remaining exercises instead of assigning another, unless the user explicitly requested a new one. Never mark it completed automatically.
 3. Choose the track: alternate from the last lesson's platform (SwiftUI ↔ Compose) unless the user says otherwise.
    Pick the earliest item on that track whose prereqs are completed. Adjust/add curriculum items if a gap appears (note why in LESSONS.md Notes).
-   Prefer an existing shared lesson matching the chosen concept if its prerequisites are met. Register it with
+   Reuse an existing local lesson matching the chosen concept if its prerequisites are met. Register it with
    `scripts/log-lesson.sh start lessons/NN-<platform>-<slug> "concepts introduced"` (only if absent from the log),
    then verify/run and present it without scaffolding another copy. Preserve existing learner edits; never reset them silently.
-   Lesson numbers identify shared materials, not a learner's lesson count. For an empty log, begin with S1 or C1.
+   Lesson numbers are local to this workspace. For an empty log, begin with S1 or C1 and scaffold if no suitable local lesson exists.
 4. Scaffold: `scripts/new-lesson.sh <ios|android> <slug> "<Title>" "<concepts introduced>"` → prints `lessons/NN-<platform>-<slug>`
    and logs it as `assigned`. Immediately name the session `Lesson NN: <Title>` via `set_session_scope`.
 5. Write the starter (must build & launch before edits; exercises marked `TODO (Ex N)`), and reference solutions under
@@ -67,7 +67,7 @@ The learner has limited study time. Teach the concepts inside the lesson's `READ
    Apply the teaching style above: worked walkthroughs first, then exercises that explicitly vary those examples.
 7. Review coverage: every required exercise concept is taught in the walkthrough or an inline mini-example, each exercise maps to an example, and docs are optional. Review README snippets for conceptual/API accuracy and clear context; they do not require compilation. Run `lessons/NN-…/verify.sh` — starter AND solution overlay must build. Fix until green.
 8. `lessons/NN-…/run.sh` — boots simulator/emulator and launches (iOS: Xcode 27 → 16 → xcode-select via DEVELOPER_DIR; Android: a Pixel AVD).
-9. Link newly authored shared materials in the curriculum's Lesson column. Keep personal completion and next-topic requests only in `LESSONS.md`.
+9. Record the curriculum ID (such as S1) in the local lesson README. Keep lesson-number mappings, personal completion, and next-topic requests only in `LESSONS.md`, not the shared curriculum.
 10. Present: goal, what it builds on, how to run, the README's guided walkthrough and practice sequence, done-when checks, optional docs, and the
     reminder to run `scripts/log-lesson.sh status NN completed "note"`. Make the lesson README the primary teaching material, not a list of reading assignments.
 

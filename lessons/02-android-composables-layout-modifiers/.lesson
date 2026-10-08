@@ -1,5 +1,0 @@
-PLATFORM=android
-APP=L02EventCard
-PKG=com.example.lessons.l02eventcard
-NUM=02
-TITLE=Composables\,\ layouts\ and\ modifiers

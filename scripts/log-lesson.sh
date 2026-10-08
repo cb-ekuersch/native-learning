@@ -3,7 +3,7 @@
 #   log-lesson.sh add <NN> <date> <platform> "<title>" "<concepts>" <path>
 #   log-lesson.sh status <NN> <assigned|in-progress|completed|skipped> ["note"]
 #   log-lesson.sh show
-#   log-lesson.sh start <lesson-dir> ["concepts"] — enroll in an existing shared lesson
+#   log-lesson.sh start <lesson-dir> ["concepts"] — register an existing local lesson
 set -euo pipefail; source "$(dirname "$0")/_lib.sh"
 [ $# -gt 0 ] || die "usage: log-lesson.sh <start|add|status|show> ..."
 "$ROOT/scripts/init.sh" >/dev/null

@@ -86,10 +86,13 @@ class SetupTests(unittest.TestCase):
     def test_private_files_ignored_shared_template_not_ignored(self):
         subprocess.run(["git", "init", "-q", str(self.root)], check=True)
         for name in ["LESSONS.md", ".pi/mcp.json", ".idea/workspace.xml",
-                     "lessons/example/local.properties", ".env", "lessons/example/build/output"]:
+                     "lessons/example/local.properties", ".env", "lessons/example/build/output",
+                     "lessons/01-ios-intro/.lesson", "lessons/example/README.md",
+                     "lessons/example/Sources/App.swift", "lessons/example/Solutions/answer.kt"]:
             result = subprocess.run(["git", "check-ignore", "-q", name], cwd=self.root)
             self.assertEqual(result.returncode, 0, name)
-        for name in ["templates/LESSONS.template.md", "scripts/init.sh"]:
+        for name in ["templates/LESSONS.template.md", "scripts/init.sh",
+                     "templates/ios/Sources/App.swift", "templates/README.template.md"]:
             result = subprocess.run(["git", "check-ignore", "-q", name], cwd=self.root)
             self.assertEqual(result.returncode, 1, name)
 
