@@ -6,6 +6,7 @@ settings:
   base:
     SWIFT_VERSION: "6.0"
     GENERATE_INFOPLIST_FILE: YES
+    INFOPLIST_FILE: Info.plist  # merged with generated keys; add keys INFOPLIST_KEY_* can't express (e.g. UIAppFonts arrays)
     CODE_SIGNING_ALLOWED: NO
     PRODUCT_BUNDLE_IDENTIFIER: __BUNDLE__
     INFOPLIST_KEY_UILaunchScreen_Generation: YES

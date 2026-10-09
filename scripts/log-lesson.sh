@@ -3,9 +3,10 @@
 #   log-lesson.sh add <NN> <date> <platform> "<title>" "<concepts>" <path>
 #   log-lesson.sh status <NN> <assigned|in-progress|completed|skipped> ["note"]
 #   log-lesson.sh show
+#   log-lesson.sh remove <NN> — drop a scrapped, never-completed lesson row (refuses completed lessons)
 #   log-lesson.sh start <lesson-dir> ["concepts"] — register an existing local lesson
 set -euo pipefail; source "$(dirname "$0")/_lib.sh"
-[ $# -gt 0 ] || die "usage: log-lesson.sh <start|add|status|show> ..."
+[ $# -gt 0 ] || die "usage: log-lesson.sh <start|add|status|show|remove> ..."
 "$ROOT/scripts/init.sh" >/dev/null
 if [ "$1" = start ]; then
   [ $# -ge 2 ] && [ $# -le 3 ] || die 'usage: log-lesson.sh start <lesson-dir> ["concepts"]'
@@ -45,6 +46,12 @@ elif cmd == "status":
         out.append(fmt(c))
     if out == [fmt(cells(r)) for r in rows] and not any(cells(r)[0] == num for r in rows): sys.exit(f"lesson {num} not found")
     rows = out
+elif cmd == "remove":
+    num = a[0]
+    match = [r for r in rows if cells(r)[0] == num]
+    if not match: sys.exit(f"lesson {num} not found")
+    if cells(match[0])[6] == "completed": sys.exit(f"lesson {num} is completed; refusing to remove learner progress")
+    rows = [r for r in rows if cells(r)[0] != num]
 elif cmd == "show":
     print(s[start:end]); sys.exit()
 else:

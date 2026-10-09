@@ -83,6 +83,18 @@ class SetupTests(unittest.TestCase):
         self.run_script("log-lesson.sh", "status", "01", "typo", ok=False)
         self.assertEqual(log.read_bytes(), data)
 
+    def test_remove_drops_open_lesson_but_refuses_completed(self):
+        log = self.root / "LESSONS.md"
+        self.run_script("log-lesson.sh", "start", "lessons/01-ios-intro")
+        self.run_script("log-lesson.sh", "remove", "01")
+        self.assertNotIn("| 01 |", log.read_text())
+        self.run_script("log-lesson.sh", "remove", "01", ok=False)
+        self.run_script("log-lesson.sh", "start", "lessons/01-ios-intro")
+        self.run_script("log-lesson.sh", "status", "01", "completed")
+        data = log.read_bytes()
+        self.run_script("log-lesson.sh", "remove", "01", ok=False)
+        self.assertEqual(log.read_bytes(), data)
+
     def test_private_files_ignored_shared_template_not_ignored(self):
         subprocess.run(["git", "init", "-q", str(self.root)], check=True)
         for name in ["LESSONS.md", ".pi/mcp.json", ".idea/workspace.xml",
