@@ -8,6 +8,7 @@ local.properties
 
 /LESSONS.md
 /lessons/
+/.state/
 .idea/
 .vscode/
 .pi/

@@ -67,11 +67,14 @@ The learner has limited study time. Teach the concepts inside the lesson's `READ
    Apply the teaching style above: worked walkthroughs first, then exercises that explicitly vary those examples.
 7. Review coverage: every required exercise concept is taught in the walkthrough or an inline mini-example, each exercise maps to an example, and docs are optional. Review README snippets for conceptual/API accuracy and clear context; they do not require compilation. Run `lessons/NN-…/verify.sh` — starter AND solution overlay must build. Fix until green.
 8. `lessons/NN-…/run.sh` — boots simulator/emulator and launches (iOS: Xcode 27 → 16 → xcode-select via DEVELOPER_DIR; Android: a Pixel AVD).
+   Devices it boots are recorded in ignored `.state/devices` so `scripts/stop-devices.sh` can shut them down later.
+   Never boot devices any other way (that would bypass the record).
 9. Record the curriculum ID (such as S1) in the local lesson README. Keep lesson-number mappings, personal completion, and next-topic requests only in `LESSONS.md`, not the shared curriculum.
 10. Present: goal, what it builds on, how to run, the README's guided walkthrough and practice sequence, done-when checks, optional docs, and the
-    reminder to run `scripts/log-lesson.sh status NN completed "note"`. Make the lesson README the primary teaching material, not a list of reading assignments.
+    reminder to run `/skill:complete-lesson NN — note` (or `scripts/log-lesson.sh status NN completed "note"`). Make the lesson README the primary teaching material, not a list of reading assignments.
 
 ## Other requests
 - "Present today's lesson": name the session `Lesson NN: <Title>`, re-run the latest lesson's `run.sh`, then present its README content (step 10 format).
-- "Mark done": `scripts/log-lesson.sh status NN completed "note"`; show `scripts/log-lesson.sh show`.
+- "Mark done": follow `.agents/skills/complete-lesson/SKILL.md` (also invocable as `/skill:complete-lesson <lesson>`):
+  marks the lesson completed and shuts down workspace-booted simulators/emulators via `scripts/stop-devices.sh`.
 - Toolchain problems: `scripts/doctor.sh`.

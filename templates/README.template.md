@@ -95,8 +95,10 @@ references and the configured SDK/dependencies while authoring; don't offload th
 -
 
 ## After the lesson
-Mark it done so tomorrow builds on it:
+Mark it done so tomorrow builds on it. With your agent, `/skill:complete-lesson __NUM__ — optional note` marks it
+completed and shuts down the simulator/emulator the lesson booted. Or by hand:
 ```sh
 ../../scripts/log-lesson.sh status __NUM__ completed "optional note: what clicked / what didn't"
+../../scripts/stop-devices.sh .   # shut down devices this workspace booted
 ```
 Solutions live in `Solutions/` (same relative paths as the starter, not compiled). Peek after trying.

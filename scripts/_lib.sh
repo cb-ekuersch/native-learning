@@ -1,6 +1,9 @@
 # Shared helpers. Source me.
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 LESSONS_DIR="$ROOT/lessons"
+# Ignored registry of simulators/emulators this workspace booted (so they can be shut down later).
+# One tab-separated row per device: platform, id (UDID / adb serial / "simulator-app"), lesson NUM, extra (AVD:PID).
+DEVICES_FILE="$ROOT/.state/devices"
 die() { echo "error: $*" >&2; exit 1; }
 # Load lesson metadata (.lesson: PLATFORM, APP, BUNDLE/PKG, NUM, TITLE).
 load_lesson() {
@@ -25,3 +28,8 @@ android_env() {
   fi
 }
 rsync_lesson() { rsync -a --exclude .build --exclude build --exclude .gradle --exclude '*.xcodeproj' --exclude .kotlin "$1/" "$2/"; }
+record_device() { # platform id lesson [extra]
+  mkdir -p "$(dirname "$DEVICES_FILE")"; touch "$DEVICES_FILE"
+  awk -F'\t' -v p="$1" -v id="$2" '$1==p && $2==id {f=1} END {exit !f}' "$DEVICES_FILE" ||
+    printf '%s\t%s\t%s\t%s\n' "$1" "$2" "$3" "${4:-}" >> "$DEVICES_FILE"
+}

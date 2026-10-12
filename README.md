@@ -147,7 +147,11 @@ and may build apps or launch a simulator/emulator as part of the lesson workflow
 
    ```sh
    ./scripts/log-lesson.sh status NN completed "optional note"
+   ./scripts/stop-devices.sh   # shut down simulators/emulators the lessons booted
    ```
+
+   Or ask your agent: `/skill:complete-lesson NN — optional note` (number, path, or a description like
+   `custom fonts`). It does both steps and only shuts down devices this workspace booted.
 
 3. The next run can build on that completion. If you haven't finished, it should continue the open lesson
    rather than create a backlog. Never run two lesson-generation jobs against the same checkout at once.
@@ -170,6 +174,8 @@ copy anyone else's schedule, lessons, or learning history.
 | File | Purpose |
 |---|---|
 | `AGENTS.md`, `.agents/skills/daily-native-lesson/` | Agent context and lesson workflow. |
+| `.agents/skills/complete-lesson/` | `/skill:complete-lesson <lesson>`: mark a lesson completed and shut down workspace-booted devices. |
+| `.state/devices` | Ignored record of simulators/emulators `run-lesson.sh` booted. |
 | `LESSONS.md` | Private, ignored learner memory; created by `scripts/init.sh`. |
 | `templates/LESSONS.template.md` | Blank learning-log template for fresh clones. |
 | `CURRICULUM.md` | Ordered concept tracks used to pick the next lesson. |
@@ -186,6 +192,7 @@ run-lesson.sh <dir>     (or <dir>/run.sh)       # boot sim/emulator, build, inst
 verify-lesson.sh <dir>  (or <dir>/verify.sh)    # build starter, then starter+Solutions overlay
 log-lesson.sh start <lesson-dir>              # register existing local material in your log
 log-lesson.sh status <NN> completed "note"     # update memory; also: add, show
+stop-devices.sh [--dry-run] [lesson-dir]       # shut down sims/emulators run-lesson.sh booted
 ```
 
 iOS uses Xcode 27 (then Xcode 16, then xcode-select) via `DEVELOPER_DIR` without changing global settings.
